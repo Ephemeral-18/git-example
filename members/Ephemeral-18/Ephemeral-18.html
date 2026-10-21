@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>Ephemeral-18 · 自我阐述</title>
+<script>
+  /* 尽早定色，避免打开时闪一下 */
+  (function () {
+    var saved = null;
+    try { saved = localStorage.getItem('eph18-theme'); } catch (e) {}
+    var theme = (saved === 'dark' || saved === 'light')
+      ? saved
+      : (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    document.documentElement.setAttribute('data-theme', theme);
+  })();
+</script>
+<style>
+  :root[data-theme="light"] {
+    --bg: #f6f3ec;
+    --bg-soft: #efeade;
+    --ink: #2c2a26;
+    --ink-soft: #6b665d;
+    --ink-faint: #9a9287;
+    --rule: #ddd6c8;
+    --accent: #8a6d3b;
+    --btn-bg: #ffffff;
+    --btn-border: #d7cfc0;
+  }
+  :root[data-theme="dark"] {
+    --bg: #17181a;
+    --bg-soft: #1f2124;
+    --ink: #e4e0d6;
+    --ink-soft: #a7a396;
+    --ink-faint: #757268;
+    --rule: #2f3236;
+    --accent: #c9a86a;
+    --btn-bg: #23252a;
+    --btn-border: #3a3d43;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body { margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "Songti SC", "STSong", "Noto Serif CJK SC", "Source Han Serif SC",
+                 "SimSun", Georgia, serif;
+    font-size: 17px;
+    line-height: 2.05;
+    letter-spacing: 0.03em;
+    -webkit-font-smoothing: antialiased;
+    transition: background-color .45s ease, color .45s ease;
+  }
+
+  .wrap {
+    max-width: 40rem;
+    margin: 0 auto;
+    padding: clamp(2rem, 7vw, 5.5rem) clamp(1.1rem, 5vw, 2.5rem) 4rem;
+  }
+
+  .topbar {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: clamp(2.5rem, 8vw, 4.5rem);
+  }
+
+  .handle {
+    font-size: 0.82rem;
+    letter-spacing: 0.22em;
+    color: var(--ink-faint);
+  }
+
+  #toggle {
+    font: inherit;
+    font-size: 0.82rem;
+    letter-spacing: 0.12em;
+    color: var(--ink-soft);
+    background: var(--btn-bg);
+    border: 1px solid var(--btn-border);
+    border-radius: 999px;
+    padding: 0.35rem 0.95rem;
+    cursor: pointer;
+    transition: background-color .3s ease, color .3s ease, border-color .3s ease;
+    white-space: nowrap;
+  }
+  #toggle:hover { color: var(--ink); border-color: var(--accent); }
+  #toggle:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+  }
+
+  h1 {
+    font-size: clamp(1.5rem, 5.5vw, 2.05rem);
+    font-weight: 600;
+    line-height: 1.5;
+    letter-spacing: 0.08em;
+    margin: 0 0 0.6rem;
+  }
+
+  .lede {
+    color: var(--ink-soft);
+    font-size: 0.95rem;
+    margin: 0 0 clamp(2.5rem, 7vw, 3.5rem);
+  }
+
+  .rule {
+    border: 0;
+    border-top: 1px solid var(--rule);
+    margin: 0 0 clamp(2rem, 6vw, 2.8rem);
+  }
+
+  h2 {
+    font-size: 1.02rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    color: var(--ink-soft);
+    margin: 0 0 1.5rem;
+  }
+
+  .prose p {
+    margin: 0 0 1.5rem;
+    text-indent: 2em;
+  }
+  .prose p:last-child { margin-bottom: 0; }
+
+  .prose p.opening {
+    text-indent: 0;
+    position: relative;
+  }
+  .prose p.opening::first-letter {
+    font-size: 2.6em;
+    line-height: 1;
+    float: left;
+    margin: 0.06em 0.16em 0 0;
+    color: var(--accent);
+  }
+
+  .quote {
+    margin: clamp(2.5rem, 8vw, 3.5rem) 0;
+    padding: clamp(1.1rem, 4vw, 1.6rem) clamp(1.1rem, 4vw, 1.7rem);
+    background: var(--bg-soft);
+    border-left: 2px solid var(--accent);
+    font-size: 1.04rem;
+    line-height: 1.95;
+    transition: background-color .45s ease;
+  }
+  .quote p { margin: 0; }
+
+  .colophon {
+    margin-top: clamp(2.8rem, 9vw, 4rem);
+    padding-top: 1.1rem;
+    border-top: 1px solid var(--rule);
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    font-size: 0.85rem;
+    color: var(--ink-faint);
+    letter-spacing: 0.1em;
+  }
+
+  @media (max-width: 30rem) {
+    body { font-size: 16px; line-height: 1.9; }
+    .topbar { align-items: flex-start; }
+    .colophon { flex-direction: column; align-items: flex-start; gap: 0.4rem; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="topbar">
+    <span class="handle">Ephemeral-18</span>
+    <button id="toggle" type="button" aria-pressed="false">深色</button>
+  </div>
+
+  <header>
+    <h1>神的自我阐述</h1>
+    <p class="lede">写在初冬与深秋之间。不铺陈，也不着急。</p>
+  </header>
+
+  <hr class="rule">
+
+  <section class="prose" aria-label="自我阐述">
+    <p class="opening">飞鸟南迁，翠树常青之际，神降生了。在这个不冷不热的初冬，一对善良的夫妇抚育神的童年。</p>
+    <p>而今，亦是秋天的尾声。没有干爽的清冽，只有神对成长的渴望。</p>
+    <p>我的性格中藏着初冬的明朗，也有深秋的郁性。</p>
+    <p>喜欢用文字记录生活中的细碎光影，也向往在代码与线路的交织中闯荡一番天地。</p>
+  </section>
+
+  <section class="quote" aria-label="一句留白">
+    <p>神的未来不可估量，凡人也不敢轻易估量。</p>
+  </section>
+
+  <div class="colophon">
+    <span>单页 · 无外链 · 深浅可切换</span>
+    <span>EPHEMERAL，却想留下一点痕迹。</span>
+  </div>
+
+</div>
+
+<script>
+  (function () {
+    var root = document.documentElement;
+    var btn = document.getElementById('toggle');
+
+    function render(theme) {
+      var next = theme === 'dark' ? '浅色' : '深色';
+      btn.textContent = next;
+      btn.setAttribute('aria-pressed', theme === 'dark' ? 'true' : 'false');
+      btn.setAttribute('title', '切换到' + next + '主题');
+    }
+
+    render(root.getAttribute('data-theme'));
+
+    btn.addEventListener('click', function () {
+      var theme = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      root.setAttribute('data-theme', theme);
+      render(theme);
+      try { localStorage.setItem('eph18-theme', theme); } catch (e) {}
+    });
+  })();
+</script>
+</body>
+</html>
