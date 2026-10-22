@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>Ephemeral-18 · 旅行者手记</title>
+<script>
+  /* 尽早定色：白昼与夜晚，不必等页面落定才见分晓 */
+  (function () {
+    var saved = null;
+    try { saved = localStorage.getItem('eph18-theme'); } catch (e) {}
+    var theme = (saved === 'dark' || saved === 'light')
+      ? saved
+      : (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    document.documentElement.setAttribute('data-theme', theme);
+  })();
+</script>
+<style>
+  :root[data-theme="light"] {
+    --bg: #f4f1e8;
+    --bg-soft: #ebe6d8;
+    --ink: #2b2a25;
+    --ink-soft: #666156;
+    --ink-faint: #97907f;
+    --rule: #dbd4c2;
+    --accent: #7a6a3f;
+    --accent-soft: #a4915c;
+    --btn-bg: #fffdf7;
+    --btn-border: #d3cab5;
+    --glow: rgba(122, 106, 63, 0.16);
+  }
+  :root[data-theme="dark"] {
+    --bg: #14161a;
+    --bg-soft: #1c1f24;
+    --ink: #e2ddcf;
+    --ink-soft: #a49f8f;
+    --ink-faint: #716d60;
+    --rule: #2b2e34;
+    --accent: #c8ab68;
+    --accent-soft: #93794a;
+    --btn-bg: #20232a;
+    --btn-border: #383c44;
+    --glow: rgba(200, 171, 104, 0.14);
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body { margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "Songti SC", "STSong", "Noto Serif CJK SC", "Source Han Serif SC",
+                 "SimSun", Georgia, serif;
+    font-size: 17px;
+    line-height: 1.95;
+    letter-spacing: 0.03em;
+    -webkit-font-smoothing: antialiased;
+    transition: background-color .5s ease, color .5s ease;
+  }
+
+  .wrap {
+    max-width: 40rem;
+    margin: 0 auto;
+    padding: clamp(2rem, 7vw, 5.5rem) clamp(1.1rem, 5vw, 2.5rem) 4rem;
+  }
+
+  .topbar {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: clamp(2.5rem, 8vw, 4.5rem);
+  }
+
+  .handle {
+    font-size: 0.82rem;
+    letter-spacing: 0.24em;
+    color: var(--ink-faint);
+  }
+
+  #toggle {
+    font: inherit;
+    font-size: 0.82rem;
+    letter-spacing: 0.14em;
+    color: var(--ink-soft);
+    background: var(--btn-bg);
+    border: 1px solid var(--btn-border);
+    border-radius: 999px;
+    padding: 0.35rem 1rem;
+    cursor: pointer;
+    transition: background-color .35s ease, color .35s ease, border-color .35s ease;
+    white-space: nowrap;
+  }
+  #toggle:hover { color: var(--ink); border-color: var(--accent); }
+  #toggle:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+  }
+
+  /* 徽记：一枚素雅的菱形，取元素轮廓之意，不取任何素材 */
+  .sigil {
+    width: 1.1rem;
+    height: 1.1rem;
+    margin-bottom: 1.6rem;
+    background: var(--accent);
+    clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
+    box-shadow: 0 0 0 0 var(--glow);
+    opacity: 0.85;
+  }
+
+  h1 {
+    font-size: clamp(1.5rem, 5.5vw, 2.05rem);
+    font-weight: 600;
+    line-height: 1.6;
+    letter-spacing: 0.08em;
+    margin: 0 0 0.7rem;
+  }
+
+  .lede {
+    color: var(--ink-soft);
+    font-size: 0.95rem;
+    margin: 0 0 clamp(2.5rem, 7vw, 3.5rem);
+  }
+
+  .rule {
+    border: 0;
+    border-top: 1px solid var(--rule);
+    margin: 0 0 clamp(2rem, 6vw, 2.8rem);
+    position: relative;
+  }
+  .rule::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: -0.3rem;
+    width: 0.55rem;
+    height: 0.55rem;
+    background: var(--accent);
+    clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
+  }
+
+  h2 {
+    font-size: 1.02rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    color: var(--ink-soft);
+    margin: 0 0 1.4rem;
+  }
+
+  ol.quests {
+    list-style: none;
+    counter-reset: quest;
+    margin: 0;
+    padding: 0;
+  }
+
+  ol.quests li {
+    counter-increment: quest;
+    position: relative;
+    padding: 1.15rem 0 1.15rem 3.2rem;
+    border-bottom: 1px solid var(--rule);
+  }
+  ol.quests li:last-child { border-bottom: 0; }
+
+  ol.quests li::before {
+    content: "其" counter(quest, cjk-ideographic);
+    position: absolute;
+    left: 0;
+    top: 1.2rem;
+    font-size: 0.86rem;
+    color: var(--accent);
+    letter-spacing: 0.06em;
+  }
+
+  .quest-title {
+    display: block;
+    font-size: 1.06rem;
+  }
+
+  .quest-flavor {
+    display: block;
+    margin-top: 0.4rem;
+    font-size: 0.88rem;
+    color: var(--ink-faint);
+    line-height: 1.85;
+  }
+
+  .card {
+    margin-top: clamp(2.5rem, 8vw, 3.5rem);
+    padding: clamp(1.15rem, 4vw, 1.7rem) clamp(1.15rem, 4vw, 1.8rem);
+    background: var(--bg-soft);
+    border-left: 2px solid var(--accent);
+    transition: background-color .5s ease;
+  }
+  .card h3 {
+    margin: 0 0 0.8rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    color: var(--ink-soft);
+  }
+  .card p { margin: 0; }
+  .card p + p { margin-top: 0.8rem; }
+
+  .tagline {
+    margin-top: clamp(2.8rem, 9vw, 4rem);
+    text-align: right;
+    font-size: 0.85rem;
+    color: var(--ink-faint);
+    letter-spacing: 0.12em;
+  }
+
+  @media (max-width: 30rem) {
+    body { font-size: 16px; line-height: 1.85; }
+    .topbar { align-items: flex-start; }
+    ol.quests li { padding-left: 2.5rem; }
+    ol.quests li::before { top: 1.25rem; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="topbar">
+    <span class="handle">EPHEMERAL-18</span>
+    <button id="toggle" type="button" aria-pressed="false">夜晚</button>
+  </div>
+
+  <div class="sigil" aria-hidden="true"></div>
+
+  <header>
+    <h1>旅居提瓦特的第十八日，记下两桩委托</h1>
+    <p class="lede">冒险家协会的分部里，旅行者的名册翻到新一页。委托不必喧哗，写在纸上，便算接下了。</p>
+  </header>
+
+  <hr class="rule">
+
+  <section>
+    <h2>学习目标 · 委托清单</h2>
+    <ol class="quests">
+      <li>
+        <span class="quest-title">完成嵌入式的学习</span>
+        <span class="quest-flavor">像解读一处处古老遗迹的符文——先读懂底层的铭文，再让机关真正运转起来，而非把图纸折好收进行囊。</span>
+      </li>
+      <li>
+        <span class="quest-title">能自主完成项目</span>
+        <span class="quest-flavor">独自踏上的旅途，没有向导指路。从需求到实现再到调试，全程自己走完，才算点亮了这片地图的锚点。</span>
+      </li>
+    </ol>
+  </section>
+
+  <section class="card" aria-label="手记余墨">
+    <h3>手记余墨</h3>
+    <p>两条委托，一条关乎深度，一条关乎耐心。派蒙大概会说：「又接了新委托？」——是，且这次不设完成期限。</p>
+    <p>此后的更新，仍只在这一个文件里发生。白昼与夜晚，随时可换。</p>
+  </section>
+
+  <p class="tagline">蜉蝣之朝暮，仙人之千载——仍想在石上刻下自己的名字。</p>
+
+</div>
+
+<script>
+  (function () {
+    var root = document.documentElement;
+    var btn = document.getElementById('toggle');
+
+    function render(theme) {
+      var next = theme === 'dark' ? '白昼' : '夜晚';
+      btn.textContent = next;
+      btn.setAttribute('aria-pressed', theme === 'dark' ? 'true' : 'false');
+      btn.setAttribute('title', '切换到' + next);
+    }
+
+    render(root.getAttribute('data-theme'));
+
+    btn.addEventListener('click', function () {
+      var theme = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      root.setAttribute('data-theme', theme);
+      render(theme);
+      try { localStorage.setItem('eph18-theme', theme); } catch (e) {}
+    });
+  })();
+</script>
+</body>
+</html>
